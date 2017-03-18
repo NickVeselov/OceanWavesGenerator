@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class WavesGenerator : MonoBehaviour
 {
@@ -14,11 +15,18 @@ public class WavesGenerator : MonoBehaviour
      public int sizeX;
      public int sizeZ;
 
-     public int interval_sizeX;
-     public int interval_sizeZ;
+     public float interval_sizeX;
+     public float interval_sizeZ;
 
-     public float scale;
+     public float amplitude;
      public float speed;
+
+     public float lengthX;
+     public float lengthZ;
+
+     public float meshHeight;
+
+     private Vector2 offset;
 
      // Use this for initialization
      void Start()
@@ -75,6 +83,7 @@ public class WavesGenerator : MonoBehaviour
           mesh.triangles = triangles;
           mesh.RecalculateNormals();
           mesh.uv = uvs;
+          GetComponent<MeshRenderer>().material.SetColor(0, Color.black);
      }
 
 
@@ -90,16 +99,20 @@ public class WavesGenerator : MonoBehaviour
                globalVertex = transform.TransformPoint(vertex);
 
                if (isEdgePoint[i])
-                    vertex.y = 0;
+                    vertex.y = amplitude + meshHeight;
                else
-                    vertex.y += scale * -Mathf.Abs(Mathf.Sin(Time.time * speed + new Vector2(globalVertex.x, globalVertex.z).magnitude));
+               {
+                    float phase = Mathf.Sin(Time.time * speed + globalVertex.x * lengthX + globalVertex.z * lengthZ);
+                    vertex.y = -amplitude * phase;
 
-
+               }
+               
                vertices[i] = vertex;
           }
 
+
           mesh.vertices = vertices;
           mesh.RecalculateNormals();
-          GetComponent<Renderer>().material.SetTextureOffset("_BumpMap", new Vector2(Time.time * 10, 0));
+          
      }
 }

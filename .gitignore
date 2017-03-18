@@ -28,3 +28,11 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
+Assets/skyb1/back.psd
+Assets/skyb1/back.psd.meta
+Assets/skyb1/bot.psd
+Assets/skyb1/front.psd
+Assets/skyb1/l.psd
+Assets/skyb1/l.psd.meta
+Assets/skyb1/r.psd
+Assets/skyb1/r.psd.meta
