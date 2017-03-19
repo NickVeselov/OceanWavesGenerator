@@ -121,7 +121,6 @@ public class WavesGenerator : MonoBehaviour
                vertices[i] = vertex;
           }
 
-
           mesh.vertices = vertices;
           mesh.RecalculateNormals();
 
