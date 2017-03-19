@@ -34,8 +34,6 @@ public class WavesGenerator : MonoBehaviour
 
      public float meshHeight;
 
-     private Vector2 offset;
-
      private bool manualUIEditing;
      
 
