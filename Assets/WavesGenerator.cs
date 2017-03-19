@@ -2,10 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.UI;
 
 public class WavesGenerator : MonoBehaviour
 {
      Mesh mesh;
+
+     public InputField amplitude_IF;
+     public InputField frequency_IF;
+     public InputField lengthX_IF;
+     public InputField lengthZ_IF;
+     public Slider waterLevelSlider;
+     public Dropdown presetDropdown;
 
      private Vector3[] vertices;
      private Vector3[] baseHeight;
@@ -28,6 +36,9 @@ public class WavesGenerator : MonoBehaviour
 
      private Vector2 offset;
 
+     private bool manualUIEditing;
+     
+
      // Use this for initialization
      void Start()
      {
@@ -36,6 +47,8 @@ public class WavesGenerator : MonoBehaviour
           zeroWaterLevel = transform.position.y;
 
           vertices = new Vector3[baseHeight.Length];
+
+          manualUIEditing = false;
      }
 
      private void Generate()
@@ -123,6 +136,71 @@ public class WavesGenerator : MonoBehaviour
 
      public void UpdateWave()
      {
+          if (!manualUIEditing)
+          {
+               if (amplitude_IF.text != "")
+                    amplitude = float.Parse(amplitude_IF.text);
+               if (frequency_IF.text != "")
+                    speed = float.Parse(frequency_IF.text);
+               if (lengthX_IF.text != "")
+                    lengthX = float.Parse(lengthX_IF.text);
+               if (lengthZ_IF.text != "")
+                    lengthZ = float.Parse(lengthZ_IF.text);
 
+               meshHeight = waterLevelSlider.value;
+          }
+     }
+
+     public void UsePreset()
+     {
+          switch (presetDropdown.value)
+          {
+               case 0:
+                    {
+                         amplitude = 10f;
+                         speed = 2f;
+                         lengthX = 0.01f;
+                         lengthZ = 0.03f;
+                         meshHeight = 27f;
+                         break;
+                    }
+               case 1:
+                    {
+                         amplitude = 60f;
+                         speed = 1.5f;
+                         lengthX = 0.005f;
+                         lengthZ = 0.01f;
+                         meshHeight = 71f;
+                         break;
+                    }
+               case 2:
+                    {
+                         amplitude = 15f;
+                         speed = 2f;
+                         lengthX = 0.6f;
+                         lengthZ = 0f;
+                         meshHeight = 40f;
+                         break;
+                    }
+               case 3:
+                    {
+                         amplitude = 3f;
+                         speed = 10f;
+                         lengthX = 15f;
+                         lengthZ = 6f;
+                         meshHeight = 30f;
+                         break;
+                    }
+          }
+
+          manualUIEditing = true;
+
+          amplitude_IF.text = amplitude.ToString();
+          frequency_IF.text = speed.ToString();
+          lengthX_IF.text = lengthX.ToString();
+          lengthZ_IF.text = lengthZ.ToString();
+          waterLevelSlider.value = meshHeight;
+
+          manualUIEditing = false;
      }
 }
