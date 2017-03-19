@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: dddb8922d93f06a45ac80f3776f8d7bb
+timeCreated: 1489931459
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Chewy
+  fontNames:
+  - Chewy
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

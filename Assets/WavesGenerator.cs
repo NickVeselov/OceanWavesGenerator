@@ -83,7 +83,7 @@ public class WavesGenerator : MonoBehaviour
           mesh.triangles = triangles;
           mesh.RecalculateNormals();
           mesh.uv = uvs;
-          GetComponent<MeshRenderer>().material.SetColor(0, Color.black);
+          
      }
 
 
@@ -113,6 +113,16 @@ public class WavesGenerator : MonoBehaviour
 
           mesh.vertices = vertices;
           mesh.RecalculateNormals();
+
+
+          Vector3 mesh_location = GetComponent<Transform>().position;
+          GetComponent<Transform>().position = new Vector3(mesh_location.x, meshHeight+3, mesh_location.z);// position.y = meshHeight + 3;
           
+     }
+
+
+     public void UpdateWave()
+     {
+
      }
 }
