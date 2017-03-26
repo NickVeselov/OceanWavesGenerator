@@ -34,8 +34,9 @@
 
      void surf(Input IN, inout SurfaceOutput o)
      {
+          int h_c = 50;
           fixed4 c = tex2D(_MainTex, IN.uv_MainTex) * _Color;
-          o.Albedo = (1 - IN.height / 19)*c.rgb + (IN.height / 19)*_Color2;
+          o.Albedo = (1 - IN.height / h_c)*c.rgb + (IN.height / h_c)*_Color2;
           o.Alpha = _Color.a;
           clip(c.a - _Cutoff);
      }

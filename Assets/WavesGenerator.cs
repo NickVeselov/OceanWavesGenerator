@@ -13,6 +13,7 @@ public class WavesGenerator : MonoBehaviour
      public InputField lengthX_IF;
      public InputField lengthZ_IF;
      public Slider waterLevelSlider;
+     public Slider perlinNoiseSlider;
      public Dropdown presetDropdown;
 
      private Vector3[] vertices;
@@ -33,6 +34,9 @@ public class WavesGenerator : MonoBehaviour
      public float lengthZ;
 
      public float meshHeight;
+
+     public float noiseWalk = 1f;
+     public float noiseStrength = 1f;
 
      private bool manualUIEditing;
      
@@ -117,9 +121,12 @@ public class WavesGenerator : MonoBehaviour
                     vertex.y = -amplitude * phase;
 
                }
-               
+
+               float noiseComponent = Mathf.PerlinNoise(baseHeight[i].x/(sizeX+1) + noiseWalk, baseHeight[i].z/(sizeZ+1) + Mathf.Sin(Time.time * 0.1f));
+               vertex.y -= noiseStrength * noiseComponent;
                vertices[i] = vertex;
           }
+
 
           mesh.vertices = vertices;
           mesh.RecalculateNormals();
@@ -130,6 +137,16 @@ public class WavesGenerator : MonoBehaviour
           
      }
 
+     void AddNoise()
+     {
+          for (int i = 0; i < vertices.Length; i++)
+          {
+               float x =  i / (sizeZ + 1),
+                    z = i % (sizeZ + 1);
+               float noiseComponent = Mathf.PerlinNoise(x/(sizeX + 1), z/ (sizeZ + 1));
+               vertices[i].y *= noiseComponent;
+          }
+     }
 
      public void UpdateWave()
      {
@@ -144,6 +161,7 @@ public class WavesGenerator : MonoBehaviour
                if (lengthZ_IF.text != "")
                     lengthZ = float.Parse(lengthZ_IF.text);
 
+               noiseStrength = perlinNoiseSlider.value;
                meshHeight = waterLevelSlider.value;
           }
      }
@@ -159,6 +177,7 @@ public class WavesGenerator : MonoBehaviour
                          lengthX = 0.01f;
                          lengthZ = 0.03f;
                          meshHeight = 27f;
+                         noiseStrength = 40f;
                          break;
                     }
                case 1:
@@ -168,6 +187,7 @@ public class WavesGenerator : MonoBehaviour
                          lengthX = 0.005f;
                          lengthZ = 0.01f;
                          meshHeight = 71f;
+                         noiseStrength = 50f;
                          break;
                     }
                case 2:
@@ -177,6 +197,7 @@ public class WavesGenerator : MonoBehaviour
                          lengthX = 0.6f;
                          lengthZ = 0f;
                          meshHeight = 40f;
+                         noiseStrength = 20f;
                          break;
                     }
                case 3:
@@ -186,6 +207,7 @@ public class WavesGenerator : MonoBehaviour
                          lengthX = 15f;
                          lengthZ = 6f;
                          meshHeight = 30f;
+                         noiseStrength = 25f;
                          break;
                     }
           }
@@ -197,6 +219,7 @@ public class WavesGenerator : MonoBehaviour
           lengthX_IF.text = lengthX.ToString();
           lengthZ_IF.text = lengthZ.ToString();
           waterLevelSlider.value = meshHeight;
+          perlinNoiseSlider.value = noiseStrength;
 
           manualUIEditing = false;
      }
